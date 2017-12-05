@@ -1,11 +1,18 @@
 {
-  "name": "adventofcode-2017",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Finlay Cannon",
-  "license": "MIT"
+    "name": "adventofcode-2017",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "node 4.js",
+        "watch": "npm-watch"
+    },
+    "watch": {
+        "test": ["*.js"]
+    },
+    "author": "Finlay Cannon",
+    "license": "MIT",
+    "dependencies": {
+        "npm-watch": "^0.3.0"
+    }
 }
