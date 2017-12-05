@@ -2,25 +2,22 @@
 // https://adventofcode.com/2017/day/4
 
 const check = passphrase => {
-    const alreadySeen = {};
-    const words = passphrase.split(' ');
-    for (let i = 0; i < words.length; i++) {
-        if (alreadySeen[words[i]]) return false;
-        alreadySeen[words[i]] = true;
-    }
-    return true;
+    const seen = {};
+    return passphrase
+        .split(' ')
+        .reduce((okSoFar, word) => (
+            okSoFar && !seen[word] && (seen[word] = true)
+        ), true);
 };
 
 const checkStrict = passphrase => {
-    const alreadySeen = {};
-    const words = passphrase.split(' ');
-    for (let i = 0; i < words.length; i++) {
-        const signature = words[i].split('');
-        signature.sort();
-        if (alreadySeen[signature]) return false;
-        alreadySeen[signature] = true;
-    }
-    return true;
+    const seen = {};
+    return passphrase
+        .split(' ')
+        .reduce((okSoFar, word) => {
+            const fingerprint = word.split('').sort().join('');
+            return okSoFar && !seen[fingerprint] && (seen[fingerprint] = true);
+        }, true);
 };
 
 // prettier-ignore
