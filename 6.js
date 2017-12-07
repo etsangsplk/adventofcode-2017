@@ -1,26 +1,20 @@
 // --- Day 6: Memory Reallocation ---
 // https://adventofcode.com/2017/day/6
 
-const max = list => {
-    let maxIdx = 0;
-    let maxValue = -1;
-    for (let i = 0; i < list.length; i++) {
-        if (list[i] > maxValue) {
-            maxValue = list[i];
-            maxIdx = i;
-        }
-    }
-    return maxIdx;
-};
+const maxIndex = list =>
+    list.reduce(
+        (max, value, index) => (value > max.value ? { value, index } : max),
+        { value: -1, index: -1 }
+    ).index;
 
 const rebalance = banks => {
-    const seen = {};
-    let cycle = 0;
+    const lastSeen = {};
+    let cycle = 1;
 
     while (true) {
-        cycle++;
-        let pos = max(banks);
+        let pos = maxIndex(banks);
         let blocks = banks[pos];
+
         banks[pos] = 0;
         while (blocks) {
             pos = (pos + 1) % banks.length;
@@ -28,11 +22,17 @@ const rebalance = banks => {
             blocks--;
         }
         // console.log(cycle, banks);
-        const config = banks.join(',');
-        if (seen[config]) {
-            return { cycle, length: cycle - seen[config] };
+
+        const pattern = banks.join(',');
+        if (lastSeen[pattern]) {
+            return {
+                cycle,
+                length: cycle - lastSeen[pattern]
+            };
         }
-        seen[config] = cycle;
+
+        lastSeen[pattern] = cycle;
+        cycle++;
     }
 };
 
