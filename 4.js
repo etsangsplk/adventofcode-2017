@@ -1,24 +1,25 @@
 // --- Day 4: High-Entropy Passphrases ---
 // https://adventofcode.com/2017/day/4
 
-const check = passphrase => {
-    const seen = {};
-    return passphrase
-        .split(' ')
-        .reduce((okSoFar, word) => (
-            okSoFar && !seen[word] && (seen[word] = true)
-        ), true);
+const isNotMoreThanOne = value => value <= 1;
+const fingerprint = word => word.split('').sort().join('');
+const plain = v => v;
+const values = Object.values;
+
+const countWordOccurences = (counts, word) => {
+    counts[word] = (counts[word] || 0) + 1;
+    return counts;
 };
 
-const checkStrict = passphrase => {
-    const seen = {};
-    return passphrase
-        .split(' ')
-        .reduce((okSoFar, word) => {
-            const fingerprint = word.split('').sort().join('');
-            return okSoFar && !seen[fingerprint] && (seen[fingerprint] = true);
-        }, true);
-};
+const check = (passphrase, strict = false) =>
+    values(
+        passphrase
+            .split(' ')
+            .map(strict ? fingerprint : plain)
+            .reduce(countWordOccurences, {})
+    ).every(isNotMoreThanOne);
+
+const checkStrict = passphrase => check(passphrase, true);
 
 // prettier-ignore
 const cases = [
@@ -28,7 +29,7 @@ const cases = [
 ];
 // cases.forEach(c => console.log(c, check(c)));
 
-input = `pphsv ojtou brvhsj cer ntfhlra udeh ccgtyzc zoyzmh jum lugbnk
+const input = `pphsv ojtou brvhsj cer ntfhlra udeh ccgtyzc zoyzmh jum lugbnk
 vxjnf fzqitnj uyfck blnl impo kxoow nngd worcm bdesehw
 caibh nfuk kfnu llfdbz uxjty yxjut jcea
 qiho qif eupwww avyglnj nxzotsu hio lws
