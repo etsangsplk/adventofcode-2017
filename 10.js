@@ -2,7 +2,8 @@
 // https://adventofcode.com/2017/day/10
 
 const debug = (list, pos) => {
-    console.log(list.map((value, idx) => (idx === pos ? `[${value}]` : `${value}`)).join(' '));
+    const values = list.map((value, idx) => (idx === pos ? `[${value}]` : `${value}`));
+    console.log(values.join(' '));
 };
 
 const range = (min, max) => {
@@ -41,25 +42,27 @@ const permute = (list, lengths, pos = 0, skip = 0, rounds = 1) => {
 
 // console.log(permute(range(0, 5), [3, 4, 1, 5]));
 
-const densify = list => {
-    const result = [];
-    for (let block = 0; block < list.length; block += 16) {
-        result.push(list.slice(block, block + 16).reduce((a, b) => a ^ b));
-    }
-    return result;
-};
-
 const toInt = str => str.split(',').map(num => parseInt(num, 10));
 const toAscii = str => str.split('').map(char => char.charCodeAt(0));
 const toHex = int => ('0' + int.toString(16)).substr(-2);
 const toHexStr = list => list.map(toHex).join('');
+const xor = (a, b) => a ^ b;
 
-const suffix = [17, 31, 73, 47, 23];
+const densify = list => {
+    const result = [];
+    for (let block = 0; block < list.length; block += 16) {
+        result.push(list.slice(block, block + 16).reduce(xor));
+    }
+    return result;
+};
 
 const hash = str => {
+    const suffix = [17, 31, 73, 47, 23];
+
     const lengths = toAscii(str).concat(suffix);
     const sparseHash = permute(range(0, 256), lengths, 0, 0, 64);
     const denseHash = densify(sparseHash);
+
     return toHexStr(denseHash);
 };
 
@@ -78,4 +81,5 @@ const input = '106,16,254,226,55,2,1,166,177,247,93,0,255,228,60,36';
 // console.log(result.slice(0, 2));
 // console.log(result[0] * result[1]); // 11413
 
+console.log(input);
 console.log(hash(input)); // 7adfd64c2a03a4968cf708d1b7fd418d
