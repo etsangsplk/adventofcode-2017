@@ -1078,10 +1078,7 @@ const exec = instructions => {
 
 const maximum = registers =>
     Object.keys(registers).reduce(
-        (max, name) =>
-            registers[name] > max.value
-                ? { name, value: registers[name] }
-                : max,
+        (max, name) => (registers[name] > max.value ? { name, value: registers[name] } : max),
         { value: Number.NEGATIVE_INFINITY }
     );
 
