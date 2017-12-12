@@ -18,12 +18,12 @@
 const distance = square => {
     let length = 1;
     let layer = 0;
-    while (length ** 2 < square) {
+    while (Math.pow(length, 2) < square) {
         length += 2;
         layer += 1;
     }
 
-    const midpoints = [1, 3, 5, 7].map(d => (length ** 2) - (layer * d));
+    const midpoints = [1, 3, 5, 7].map(d => Math.pow(length, 2) - layer * d);
     const deltas = midpoints.map(mid => Math.abs(mid - square));
 
     return layer + Math.min(...deltas);
@@ -32,6 +32,5 @@ const distance = square => {
 const cases = [1, 2, 9, 12, 23, 1024];
 // cases.forEach(square => console.log(square, distance(square)));
 
-input = 289326;
-console.log('Part 1:', distance(input));
-
+const input = 289326;
+console.log('Part 1:', distance(input)); // 419
