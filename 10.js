@@ -50,8 +50,8 @@ const xor = (a, b) => a ^ b;
 
 const densify = list => {
     const result = [];
-    for (let block = 0; block < list.length; block += 16) {
-        result.push(list.slice(block, block + 16).reduce(xor));
+    while (list.length) {
+        result.push(list.splice(0, 16).reduce(xor));
     }
     return result;
 };
