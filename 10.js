@@ -81,5 +81,7 @@ const input = '106,16,254,226,55,2,1,166,177,247,93,0,255,228,60,36';
 // console.log(result.slice(0, 2));
 // console.log(result[0] * result[1]); // 11413
 
-console.log(input);
-console.log(hash(input)); // 7adfd64c2a03a4968cf708d1b7fd418d
+// console.log(input);
+// console.log(hash(input)); // 7adfd64c2a03a4968cf708d1b7fd418d
+
+module.exports.hash = hash;
